@@ -2,22 +2,35 @@ package com.yunus.fakebank.customer;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
-@Entity
-@Table(name="customer")
+
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
 @NoArgsConstructor
+@ToString
+@Entity
+@Table(name="customer")
 public class Customer {
     @Id
-    private int ssn;
+    @SequenceGenerator(
+            name = "customer_sequence",
+            sequenceName="customer_sequence"
+    )
+    @GeneratedValue(
+            strategy = GenerationType.AUTO,
+            generator = "customer_sequence"
+    )
+    private Long ssn;
+    @Column(nullable = false, unique = true)
     private String email;
+    @Column(nullable = false)
     private String name_surname;
+    @Column(nullable = false)
     private String password;
+    @Column(nullable = false, unique = true)
     private String phone;
+    @Column(nullable = false)
+    private int salary;
 }

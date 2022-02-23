@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-@RestController
+@RestController("/customer")
 public class CustomerController {
     private final CustomerService customerService;
     @Autowired
@@ -19,8 +19,6 @@ public class CustomerController {
     }
     @PostMapping
     public void registerNewCustomer(@RequestBody Customer customer){
-//        int ssn, String email, String nameSurname, String password, String phone
-//        Customer customer=new Customer(ssn,email,nameSurname,password,phone);
         customerService.addCustomer(customer);
     }
     @DeleteMapping("/{ssn}")
