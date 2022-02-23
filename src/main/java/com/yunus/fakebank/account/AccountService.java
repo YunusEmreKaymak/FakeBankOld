@@ -15,13 +15,20 @@ public class AccountService {
     }
 
     public void addAccount(Account account){
-        accountRepository.save(account);
+        Optional<Account> accountByIban = accountRepository.findAccountByIban(account.getIban());
+        if (accountByIban.isPresent()){
+            throw new IllegalStateException("account already added on that iban");
+
+        }else {
+            accountRepository.save(account);
+        }
+
     }
 
     public void updateAccount(Account account){
         if (accountRepository.existsById(account.getAccount_id())){
             Account account1 = accountRepository.findById(account.getAccount_id()).orElseThrow(() -> new IllegalStateException("ERROR: account cannot found on update"));
-            if (account1.getCustomer().equals(account.getCustomer())){
+            if (account1.getAccount_id().equals(account.getAccount_id())){
                 account1.setBalance(account.getBalance());
             }
         }

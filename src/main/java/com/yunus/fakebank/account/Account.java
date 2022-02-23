@@ -23,16 +23,15 @@ public class Account {
             strategy = GenerationType.AUTO,
             generator = "account_sequence"
     )
+    @Column(name = "account_id")
     private Long account_id;
-    @Column(nullable = false)
-    @ManyToOne
-    @JoinColumn(
-            name = "ssn",
-            referencedColumnName = "ssn"
-
-    )
-    private Customer customer;
+    @Column(name = "ssn",updatable = false)
+    private Long ssn;
     private String accountType;
     private String iban;
     private int balance;
+
+    @ManyToOne
+//    @JoinColumn(name = "ssn")
+    private Customer customer;
 }
