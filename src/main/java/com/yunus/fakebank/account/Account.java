@@ -1,11 +1,14 @@
 package com.yunus.fakebank.account;
 
 import com.yunus.fakebank.customer.Customer;
+import com.yunus.fakebank.loan.Loan;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Data
@@ -32,6 +35,9 @@ public class Account {
     private int balance;
 
     @ManyToOne
-//    @JoinColumn(name = "ssn")
     private Customer customer;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "account_id",referencedColumnName = "account_id")
+    List<Loan> loans=new ArrayList<>();
 }
