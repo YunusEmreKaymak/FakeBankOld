@@ -22,9 +22,9 @@ public class AccountController {
     public void addAccound(@RequestBody Account account){
         accountService.addAccount(account);
     }
-    @PutMapping
-    public void updateAccount(@RequestBody Account account){
-        accountService.updateAccount(account);
+    @PutMapping("/{id}/{balance}")
+    public void updateAccount(@PathVariable("id") Long id, @PathVariable("balance") int balance){
+        accountService.updateAccount(id, balance);
     }
 
 

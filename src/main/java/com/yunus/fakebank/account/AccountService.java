@@ -25,13 +25,10 @@ public class AccountService {
 
     }
 
-    public void updateAccount(Account account){
-        if (accountRepository.existsById(account.getAccount_id())){
-            Account account1 = accountRepository.findById(account.getAccount_id()).orElseThrow(() -> new IllegalStateException("ERROR: account cannot found on update"));
-            if (account1.getAccount_id().equals(account.getAccount_id())){
-                account1.setBalance(account.getBalance());
-            }
-        }
+    public void updateAccount(Long id, int balance){
+        Account account1 = accountRepository.findById(id).orElseThrow(() -> new IllegalStateException("ERROR: account cannot found on update"));
+        account1.setBalance(balance);
+        accountRepository.save(account1);
     }
 
     public void deleteAccount(Long account_id){
