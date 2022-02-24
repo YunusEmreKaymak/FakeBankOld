@@ -4,6 +4,7 @@ import com.yunus.fakebank.card.Card;
 import com.yunus.fakebank.customer.Customer;
 import com.yunus.fakebank.loan.Loan;
 import com.yunus.fakebank.stock.Stock;
+import com.yunus.fakebank.transaction.Transaction;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -50,4 +51,12 @@ public class Account {
     @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "account_id", referencedColumnName = "account_id")
     List<Stock> stocks=new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "given_id",referencedColumnName = "account_id")
+    List<Transaction> transactions=new ArrayList<>();
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "receiven_id",referencedColumnName = "account_id")
+    List<Transaction> transactions2= new ArrayList<>();
 }
