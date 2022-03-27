@@ -49,7 +49,7 @@ public class Customer {
     private String password;
     @Column(nullable = false)
     private int salary;
-    
+
     @OneToMany
     @JoinColumn(name = "ssn", referencedColumnName = "ssn")
     @Transient
