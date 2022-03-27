@@ -1,42 +1,47 @@
 package com.yunus.fakebank.customer;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.yunus.fakebank.account.Account;
-import lombok.*;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
 
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 @Getter
 @Setter
-@AllArgsConstructor
 @NoArgsConstructor
 @ToString
 @Entity
 @Table(
-        name="customer",
+        name = "customer",
         uniqueConstraints = {
                 @UniqueConstraint(name = "customer_email_unique", columnNames = "email"),
                 @UniqueConstraint(name = "customer_phone_unique", columnNames = "phone")
         }
 )
+
 public class Customer {
+    public Customer(Long ssn, String email, String phone, String name_surname, String password, int salary) {
+        this.ssn = ssn;
+        this.email = email;
+        this.phone = phone;
+        this.name_surname = name_surname;
+        this.password = password;
+        this.salary = salary;
+    }
+
     @Id
-    @SequenceGenerator(
-            name = "customer_sequence",
-            sequenceName="customer_sequence"
-    )
-    @GeneratedValue(
-            strategy = GenerationType.AUTO,
-            generator = "customer_sequence"
-    )
     @Column(name = "ssn")
     private Long ssn;
-    @Column(name = "email",nullable = false)
+    @Column(name = "email", nullable = false)
     private String email;
-    @Column(name = "phone",nullable = false)
+    @Column(name = "phone", nullable = false)
     private String phone;
     @Column(nullable = false)
     private String name_surname;
@@ -44,8 +49,27 @@ public class Customer {
     private String password;
     @Column(nullable = false)
     private int salary;
-    // Referenced means here
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "ssn",referencedColumnName = "ssn")
-    private List<Account> accounts=new ArrayList<>();
+    
+    @OneToMany
+    @JoinColumn(name = "ssn", referencedColumnName = "ssn")
+    @Transient
+    private List<Account> accounts = new ArrayList<>();
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Customer customer = (Customer) o;
+        return salary == customer.salary &&
+                ssn.equals(customer.ssn) &&
+                email.equals(customer.email) &&
+                phone.equals(customer.phone) &&
+                name_surname.equals(customer.name_surname) &&
+                password.equals(customer.password);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(ssn, email, phone, name_surname, password, salary);
+    }
 }
